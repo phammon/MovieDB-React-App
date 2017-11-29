@@ -1,0 +1,32 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background: #012D48
+}
+#center {
+	width: 40%;
+	margin: 0 auto;
+	margin-top: 20px;
+}
+#heading{
+	color: #0C7AC8;
+	text-align:left;
+}
+.row {
+	display: flex;
+	flex-direction: row;
+}
+#color {
+	color: #0C7AC8;
+}
+
+#poster:hover {
+	border: 3px solid #0C7AC8;
+}
+.inline {
+	
+}
+
+
+
