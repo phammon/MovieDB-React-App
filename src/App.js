@@ -22,9 +22,13 @@ class App extends React.Component {
     this.manipulateQueries=this.manipulateQueries.bind(this);
     }
   handleChange(e) {
+    if (e.target.value === "") {
+      return;
+    }else{
     this.setState({ 
       input: e.target.value 
     })
+   }
   }
   componentDidMount() {
       fetch('https://api.themoviedb.org/3/movie/popular?api_key=def6a8b00cc6fc7b3f0c91f8e4bd4e9c&language=en-US&page=1&region=en').then((response) => {
@@ -42,9 +46,16 @@ class App extends React.Component {
     })
   }
   handleClick() {
+    if(this.state.input === undefined) {
+      return;
+     }else {
     fetch('https://api.themoviedb.org/3/search/movie?api_key=def6a8b00cc6fc7b3f0c91f8e4bd4e9c&query=' + this.state.input + '&page=1').then((response) => {
           return response.json();
         }).then((obj) => {
+        if(obj.results[0] === undefined){
+          this.renderDefault();
+          alert('sorry this search yieled no results, try again');
+        } else{
         this.setState({
           loading: false,
           poster: 'http://image.tmdb.org/t/p/w300//' + obj.results[0].poster_path,
@@ -53,9 +64,10 @@ class App extends React.Component {
           overview: obj.results[0].overview,
           data: obj.results[0].release_date,
           queries: [obj.results[0], obj.results[1], obj.results[2], obj.results[3], obj.results[4], obj.results[5], obj.results[6], obj.results[7], obj.results[8], obj.results[9]]
+           })
+          }
         })
-    })
-        
+     }  
   }
   renderLoading() {
     return <div>Loading .... </div>;
@@ -82,6 +94,21 @@ class App extends React.Component {
     });
     return newArr;
   };
+  renderDefault() {
+     fetch('https://api.themoviedb.org/3/movie/popular?api_key=def6a8b00cc6fc7b3f0c91f8e4bd4e9c&language=en-US&page=1&region=en').then((response) => {
+               return response.json();
+        }).then((obj) => {
+        this.setState({
+          loading: false,
+          poster: 'http://image.tmdb.org/t/p/w300//' + obj.results[0].poster_path,
+          title: obj.results[0].title,
+          votes: obj.results[0].vote_average,
+          overview: obj.results[0].overview,
+          data: obj.results[0].release_date,
+          queries: [obj.results[0], obj.results[1], obj.results[2], obj.results[3], obj.results[4], obj.results[5], obj.results[6], obj.results[7], obj.results[8], obj.results[9]]
+        })
+    })
+  }
   render() {
     if(this.state.loading) {
       return this.renderLoading();
@@ -93,23 +120,6 @@ class App extends React.Component {
 
 App = Radium(App);
 export default App;
-
-// openLightbox (index, event) {
-  //  this.setState({
-  //   isOpen: true
-  //  })
-  // }
-  // closeLightbox () {
-  //   this.setState({
-  //     lightboxIsOpen: false,
-  //   });
-  // }
-  // moveNext() {
-  //   this.setState({ index: (this.state.index + 1) % this.state.queries.length });
-  // }
-
-  // movePrev() {
-  //   this.setState({
   //     index: (this.state.index + this.state.queries.length - 1) % this.state.queries.length,
   //   });
   // }
