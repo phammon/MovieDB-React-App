@@ -52,10 +52,14 @@ class App extends React.Component {
     fetch('https://api.themoviedb.org/3/search/movie?api_key=def6a8b00cc6fc7b3f0c91f8e4bd4e9c&query=' + this.state.input + '&page=1').then((response) => {
           return response.json();
         }).then((obj) => {
+          console.log(obj)
         if(obj.results[0] === undefined){
           this.renderDefault();
           alert('sorry this search yieled no results, try again');
-        } else{
+        } else if(obj.results[0].poster_path === null){
+          this.renderDefault();
+          alert('sorry this search yielded no results, please search again');
+        }else{
         this.setState({
           loading: false,
           poster: 'http://image.tmdb.org/t/p/w300//' + obj.results[0].poster_path,
@@ -86,12 +90,15 @@ class App extends React.Component {
   //used map to convert data into array of objects for Lightbox/react-images to use. 
   manipulateQueries() {
     let oldArr = this.state.queries;
-    let newArr = oldArr.map(i => {
+    let midArr = oldArr.filter(i => { return i.poster_path !== undefined })
+    let newArr = midArr.map(i => {
       return  {src: 'http://image.tmdb.org/t/p/w300//' + i.poster_path,
               thumbnail: 'http://image.tmdb.org/t/p/w300//' + i.poster_path,
               thumbnailWidth: 180,
               thumbnailHeight: 260}
-    });
+       });
+
+
     return newArr;
   };
   renderDefault() {
