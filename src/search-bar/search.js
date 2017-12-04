@@ -11,6 +11,7 @@ export default class Search extends React.Component {
 				textAlign: 'left',
 				width: '80%',
 				display: 'inline-block',
+				padding: '10px'
 			
 			}
 		}

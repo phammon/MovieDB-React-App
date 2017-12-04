@@ -1,6 +1,7 @@
 import React from 'react';
 import Search from './search-bar/search';
 import Movie from './render-movie/movie';
+import Rating from './rating/rating';
 import Thumbnails from './thumbnails/thumbnails';
 import './App.css';
 import './index.css';
@@ -24,7 +25,7 @@ class App extends React.Component {
   handleChange(e) {
     if (e.target.value === "") {
       return;
-    }else{
+    } else {
     this.setState({ 
       input: e.target.value 
     })
@@ -90,8 +91,9 @@ class App extends React.Component {
   //used map to convert data into array of objects for Lightbox/react-images to use. 
   manipulateQueries() {
     let oldArr = this.state.queries;
-    let midArr = oldArr.filter(i => { return i.poster_path !== undefined })
-    let newArr = midArr.map(i => {
+    let noUndefines = oldArr.filter(i => { return i !== undefined })
+    let havePosters = noUndefines.filter(i => { return i.poster_path !== null})
+    let newArr = havePosters.map(i => {
       return  {src: 'http://image.tmdb.org/t/p/w300//' + i.poster_path,
               thumbnail: 'http://image.tmdb.org/t/p/w300//' + i.poster_path,
               thumbnailWidth: 180,
@@ -125,8 +127,4 @@ class App extends React.Component {
   }
 }
 
-App = Radium(App);
 export default App;
-  //     index: (this.state.index + this.state.queries.length - 1) % this.state.queries.length,
-  //   });
-  // }

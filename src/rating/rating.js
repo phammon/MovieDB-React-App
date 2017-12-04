@@ -2,7 +2,7 @@ import React from 'react';
 import Radium, { Style } from 'radium';
 
 
-class Button extends React.Component {
+class Rating extends React.Component {
 
 	render() {
 		var styles = {
@@ -25,10 +25,8 @@ class Button extends React.Component {
 		  }
 		};
     return (
-	      <input type="submit" style={styles.base} onClick={this.props.onClick} value="Search" />
+	      <h2 style={styles.base} rating={this.props.rating}/>
     );
    }
  }
-
- Button = Radium(Button);
- export default Button;
+export default Rating;
