@@ -35,6 +35,7 @@ class App extends React.Component {
       fetch('https://api.themoviedb.org/3/movie/popular?api_key=def6a8b00cc6fc7b3f0c91f8e4bd4e9c&language=en-US&page=1&region=en').then((response) => {
                return response.json();
         }).then((obj) => {
+          console.log(obj.results)
         this.setState({
           loading: false,
           poster: 'http://image.tmdb.org/t/p/w300//' + obj.results[0].poster_path,
@@ -72,7 +73,7 @@ class App extends React.Component {
            })
           }
         })
-     }  
+     }
   }
   renderLoading() {
     return <div>Loading .... </div>;
@@ -97,7 +98,10 @@ class App extends React.Component {
       return  {src: 'http://image.tmdb.org/t/p/w300//' + i.poster_path,
               thumbnail: 'http://image.tmdb.org/t/p/w300//' + i.poster_path,
               thumbnailWidth: 180,
-              thumbnailHeight: 260}
+              thumbnailHeight: 260,
+              tags:[{value: i.vote_average, Name: 'rating'}],
+              caption: i.overview,
+             }
        });
 
 
